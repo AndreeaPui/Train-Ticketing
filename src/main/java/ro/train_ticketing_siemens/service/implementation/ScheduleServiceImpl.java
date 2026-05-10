@@ -9,6 +9,8 @@ import ro.train_ticketing_siemens.domain.Train;
 import ro.train_ticketing_siemens.dto.request.DelayRequestDTO;
 import ro.train_ticketing_siemens.dto.schedule.ScheduleRequestDTO;
 import ro.train_ticketing_siemens.dto.schedule.ScheduleResponseDTO;
+import ro.train_ticketing_siemens.errorhandling.enums.ErrorCode;
+import ro.train_ticketing_siemens.errorhandling.exceptions.ResourceNotFoundException;
 import ro.train_ticketing_siemens.mapper.ScheduleMapper;
 import ro.train_ticketing_siemens.repository.BookingRepository;
 import ro.train_ticketing_siemens.repository.ScheduleRepository;
@@ -80,7 +82,10 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleResponseDTO update(UUID id, ScheduleRequestDTO dto) {
         Schedule schedule = scheduleRepository.findById(id)
                 .filter(s -> !s.getDeleted())
-                .orElseThrow(() -> new RuntimeException("Schedule not found"));
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode._1004_SCHEDULE_NOT_FOUND,
+                        id
+                ));
 
         Train train = trainRepository.findById(dto.trainId())
                 .filter(t -> !t.getDeleted())

@@ -7,6 +7,8 @@ import ro.train_ticketing_siemens.domain.RouteStation;
 import ro.train_ticketing_siemens.domain.Station;
 import ro.train_ticketing_siemens.dto.route_station.RouteStationRequestDTO;
 import ro.train_ticketing_siemens.dto.route_station.RouteStationResponseDTO;
+import ro.train_ticketing_siemens.errorhandling.enums.ErrorCode;
+import ro.train_ticketing_siemens.errorhandling.exceptions.ResourceNotFoundException;
 import ro.train_ticketing_siemens.mapper.RouteStationMapper;
 import ro.train_ticketing_siemens.repository.RouteRepository;
 import ro.train_ticketing_siemens.repository.RouteStationRepository;
@@ -88,8 +90,10 @@ public class RouteStationServiceImpl implements RouteStationService {
 
         Station station = stationRepository.findById(dto.stationId())
                 .filter(s -> !s.getDeleted())
-                .orElseThrow(() -> new RuntimeException("Station not found"));
-
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode._1002_ROUTE_STATION_NOT_FOUND,
+                        id
+                ));
         routeStation.setRoute(route);
         routeStation.setStation(station);
         routeStation.setStopOrder(dto.stopOrder());

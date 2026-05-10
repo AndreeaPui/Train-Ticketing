@@ -7,6 +7,8 @@ import ro.train_ticketing_siemens.domain.Route;
 import ro.train_ticketing_siemens.domain.Train;
 import ro.train_ticketing_siemens.dto.train.TrainRequestDTO;
 import ro.train_ticketing_siemens.dto.train.TrainResponseDTO;
+import ro.train_ticketing_siemens.errorhandling.enums.ErrorCode;
+import ro.train_ticketing_siemens.errorhandling.exceptions.ResourceNotFoundException;
 import ro.train_ticketing_siemens.mapper.TrainMapper;
 import ro.train_ticketing_siemens.repository.RouteRepository;
 import ro.train_ticketing_siemens.repository.TrainRepository;
@@ -70,8 +72,10 @@ public class TrainServiceImpl implements TrainService {
 
         Route route = routeRepository.findById(dto.routeId())
                 .filter(r -> !r.getDeleted())
-                .orElseThrow(() -> new RuntimeException("Route not found"));
-
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode._1003_TRAIN_NOT_FOUND,
+                        id
+                ));
         train.setTrainNumber(dto.trainNumber());
         train.setName(dto.name());
         train.setCapacity(dto.capacity());

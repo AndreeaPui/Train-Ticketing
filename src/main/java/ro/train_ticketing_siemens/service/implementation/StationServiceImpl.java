@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ro.train_ticketing_siemens.domain.Station;
 import ro.train_ticketing_siemens.dto.station.StationRequestDTO;
 import ro.train_ticketing_siemens.dto.station.StationResponseDTO;
+import ro.train_ticketing_siemens.errorhandling.enums.ErrorCode;
+import ro.train_ticketing_siemens.errorhandling.exceptions.ResourceNotFoundException;
 import ro.train_ticketing_siemens.mapper.StationMapper;
 import ro.train_ticketing_siemens.repository.StationRepository;
 import ro.train_ticketing_siemens.service.StationService;
@@ -51,8 +53,10 @@ public class StationServiceImpl implements StationService {
     public void delete(UUID id) {
         Station station = stationRepository.findById(id)
                 .filter(s -> !s.getDeleted())
-                .orElseThrow(() -> new RuntimeException("Station not found"));
-
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode._1000_STATION_NOT_FOUND,
+                        id
+                ));
         station.setDeleted(true);
         stationRepository.save(station);
     }

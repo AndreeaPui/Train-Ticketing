@@ -9,6 +9,8 @@ import ro.train_ticketing_siemens.domain.Schedule;
 import ro.train_ticketing_siemens.domain.Station;
 import ro.train_ticketing_siemens.dto.booking.BookingRequestDTO;
 import ro.train_ticketing_siemens.dto.booking.BookingResponseDTO;
+import ro.train_ticketing_siemens.errorhandling.enums.ErrorCode;
+import ro.train_ticketing_siemens.errorhandling.exceptions.ResourceNotFoundException;
 import ro.train_ticketing_siemens.mapper.BookingMapper;
 import ro.train_ticketing_siemens.repository.BookingRepository;
 import ro.train_ticketing_siemens.repository.ScheduleRepository;
@@ -102,8 +104,10 @@ public class BookingServiceImpl implements BookingService {
 
         Booking booking = bookingRepository.findById(id)
                 .filter(b -> !b.getDeleted())
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode._1005_BOOKING_NOT_FOUND,
+                        id
+                ));
         booking.setDeleted(true);
 
         bookingRepository.save(booking);

@@ -55,7 +55,6 @@ public class ConnectionServiceImpl implements ConnectionService {
             }
         }
 
-        // 2. Căutăm conexiuni cu o schimbare
         for (Schedule firstSchedule : schedules) {
             for (Schedule secondSchedule : schedules) {
 

@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ro.train_ticketing_siemens.domain.Route;
 import ro.train_ticketing_siemens.dto.route.RouteRequestDTO;
 import ro.train_ticketing_siemens.dto.route.RouteResponseDTO;
+import ro.train_ticketing_siemens.errorhandling.enums.ErrorCode;
+import ro.train_ticketing_siemens.errorhandling.exceptions.ResourceNotFoundException;
 import ro.train_ticketing_siemens.mapper.RouteMapper;
 import ro.train_ticketing_siemens.repository.RouteRepository;
 import ro.train_ticketing_siemens.service.RouteService;
@@ -59,8 +61,10 @@ public class RouteServiceImpl implements RouteService {
     public RouteResponseDTO update(UUID id, RouteRequestDTO dto) {
         Route route = routeRepository.findById(id)
                 .filter(r -> !r.getDeleted())
-                .orElseThrow(() -> new RuntimeException("Route not found"));
-
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        ErrorCode._1001_ROUTE_NOT_FOUND,
+                        id
+                ));
         route.setName(dto.name());
 
         return routeMapper.toDto(routeRepository.save(route));
