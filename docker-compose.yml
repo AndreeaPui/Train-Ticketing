@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: train_ticketing_db
+    environment:
+      POSTGRES_DB: train_ticketing
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - train_ticketing_data:/var/lib/postgresql/data
+
+volumes:
+  train_ticketing_data:
