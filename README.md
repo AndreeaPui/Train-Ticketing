@@ -363,9 +363,3 @@ The project automatically inserts predefined:
 - schedules
 
 using Flyway migrations.
-
----
-
-# Author
-
-Mihai Diaconu
