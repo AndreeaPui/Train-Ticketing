@@ -45,6 +45,7 @@ Java Spring Boot application for train ticket booking and route management.
 - Flyway
 - Docker
 - Lombok
+<img width="862" height="923" alt="Screenshot 2026-05-10 164846" src="https://github.com/user-attachments/assets/7edbd631-dd8c-455d-bbd6-3ea898a22ad4" />
 
 ---
 
