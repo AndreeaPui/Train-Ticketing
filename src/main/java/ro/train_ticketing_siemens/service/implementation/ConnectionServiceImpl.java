@@ -6,6 +6,8 @@ import ro.train_ticketing_siemens.domain.RouteStation;
 import ro.train_ticketing_siemens.domain.Schedule;
 import ro.train_ticketing_siemens.dto.connection.ConnectionLegResponseDTO;
 import ro.train_ticketing_siemens.dto.connection.ConnectionResponseDTO;
+import ro.train_ticketing_siemens.errorhandling.enums.ErrorCode;
+import ro.train_ticketing_siemens.errorhandling.exceptions.ResourceNotFoundException;
 import ro.train_ticketing_siemens.repository.RouteStationRepository;
 import ro.train_ticketing_siemens.repository.ScheduleRepository;
 import ro.train_ticketing_siemens.service.ConnectionService;
@@ -128,8 +130,9 @@ public class ConnectionServiceImpl implements ConnectionService {
         }
 
         if (results.isEmpty()) {
-            throw new RuntimeException("No connections found between the selected stations");
-        }
+            throw new ResourceNotFoundException(
+                    ErrorCode._2004_NO_CONNECTIONS_FOUND
+            );        }
 
         return results;
     }
