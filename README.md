@@ -137,6 +137,8 @@ deleted = true
 ---
 
 # API Endpoints
+<img width="1853" height="857" alt="image" src="https://github.com/user-attachments/assets/9c27249c-de99-4a6b-adcf-99d32e4ef4b2" />
+<img width="972" height="870" alt="image" src="https://github.com/user-attachments/assets/2fe80315-289d-45d8-bdc8-fc3ea0fc4a25" />
 
 # Stations
 
